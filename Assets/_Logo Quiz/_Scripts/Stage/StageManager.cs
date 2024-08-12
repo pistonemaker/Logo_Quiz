@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class StageManager : Singleton<StageManager>
 
     public List<Blank> blankList;
     public List<Alphabet> alphabetList;
+    public string rightAnswer;
 
     public void Init()
     {
@@ -21,9 +23,16 @@ public class StageManager : Singleton<StageManager>
 
     private void OnEnable()
     {
+        rightAnswer = data.answer.ToUpper();
         CreatBlanks();
         CreateAlphabets();
         StartCoroutine(DeactiveLayoutGroup());
+        EventDispatcher.Instance.RegisterListener(EventID.On_Player_Fill_All_Blanks, CheckIfPlayerFillAllBlanks);
+    }
+
+    private void OnDisable()
+    {
+        EventDispatcher.Instance.RemoveListener(EventID.On_Player_Fill_All_Blanks, CheckIfPlayerFillAllBlanks);
     }
 
     private void CreatBlanks()
@@ -43,6 +52,7 @@ public class StageManager : Singleton<StageManager>
         for (int i = 0; i < data.alphabets.Count; i++)
         {
             var alphabet = PoolingManager.Spawn(alphabetPrefab, transform.position, Quaternion.identity);
+            alphabet.id = i;
             alphabet.transform.SetParent(alphabetGroup.GetComponent<RectTransform>());
             alphabet.transform.localScale = Vector3.one;
             alphabet.name = "Alphabet " + (i + 1);
@@ -68,6 +78,57 @@ public class StageManager : Singleton<StageManager>
                 alphabet.transform.SetParent(blankGroup.transform);
                 alphabet.SetTarget(blankList[i]);
                 break;
+            }
+        }
+    }
+
+    public void ResetAlphabet(Alphabet alphabet)
+    {
+        alphabet.transform.SetParent(alphabetGroup.transform);
+        alphabet.SetTarget(null);
+    }
+
+    public bool IsPlayerFillAllBlanks()
+    {
+        for (int i = 0; i < blankList.Count; i++)
+        {
+            if (!blankList[i].isFilled)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void CheckIfPlayerFillAllBlanks(object param)
+    {
+        if (!IsPlayerFillAllBlanks())
+        {
+            return;
+        }
+        
+        string playerAnswer = "";
+        
+        for (int i = 0; i < blankList.Count; i++)
+        {
+            playerAnswer += data.alphabets[blankList[i].alphabetIndex].name;
+        }
+
+        var check = String.CompareOrdinal(playerAnswer.ToUpper(), rightAnswer);
+        
+        if (check == 0)
+        {
+            Debug.Log("Đúng");
+        }
+        else
+        {
+            for (int i = 0; i < blankList.Count; i++)
+            {
+                if (playerAnswer[i] != rightAnswer[i])
+                {
+                    alphabetList[blankList[i].alphabetIndex].BackAnchorPosition();
+                }
             }
         }
     }
