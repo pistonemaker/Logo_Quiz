@@ -34,6 +34,8 @@ public class WinPanel : MonoBehaviour
 
     private void LoadNextStage()
     {
+        var curStage = PlayerPrefs.GetInt(DataKey.Cur_Stage);
+        PlayerPrefs.SetInt(DataKey.Cur_Stage, curStage + 1);
         SceneManager.LoadSceneAsync("Game");
     }
 }

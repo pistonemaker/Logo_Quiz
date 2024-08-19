@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -18,7 +16,6 @@ public class GameManager : Singleton<GameManager>
 
     private void OnPlayerWin(object param)
     {
-        var curStage = PlayerPrefs.GetInt(DataKey.Cur_Stage);
-        PlayerPrefs.SetInt(DataKey.Cur_Stage, curStage + 1);
+        
     }
 }
