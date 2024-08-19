@@ -23,6 +23,7 @@ public class StageManager : Singleton<StageManager>
 
     private void OnEnable()
     {
+        data = GameManager.Instance.data.gameData[PlayerPrefs.GetInt(DataKey.Cur_Stage)];
         rightAnswer = data.answer.ToUpper();
         CreatBlanks();
         CreateAlphabets();
@@ -119,7 +120,7 @@ public class StageManager : Singleton<StageManager>
         
         if (check == 0)
         {
-            Debug.Log("Đúng");
+            EventDispatcher.Instance.PostEvent(EventID.On_Player_Win);
         }
         else
         {

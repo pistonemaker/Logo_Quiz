@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9e17d9655fbb334a8be0061cdbcd145, type: 3}
+  m_Name: Stage 6
+  m_EditorClassIdentifier: 
+  blankNumber: 7
+  logo: {fileID: 21300000, guid: d6fb358cd53d6bc428fa44cf9d577b85, type: 3}
+  answer: Bacardi
+  alphabets:
+  - {fileID: 21300000, guid: 48d8b674227f8c94492136d4ee9c67af, type: 3}
+  - {fileID: 21300000, guid: 8e9f50a07410e24478730aad159ebee3, type: 3}
+  - {fileID: 21300000, guid: 71bf989b3123a5641922e3b508fb4353, type: 3}
+  - {fileID: 21300000, guid: 8e9f50a07410e24478730aad159ebee3, type: 3}
+  - {fileID: 21300000, guid: a77b96c610ab99d48ae15c38b97ad4e4, type: 3}
+  - {fileID: 21300000, guid: d67c1e45bc54e4849acfb74ddad35287, type: 3}
+  - {fileID: 21300000, guid: a40841399e9026b4ab45298e730615ec, type: 3}
+  - {fileID: 21300000, guid: 9146b78d4845b794c9b167c7ca6dc099, type: 3}
+  - {fileID: 21300000, guid: 71567b97a41ef2948bf260bbd930c968, type: 3}
+  - {fileID: 21300000, guid: eda498849152af946afa8a0d4e73771b, type: 3}
+  - {fileID: 21300000, guid: be0438e79f6c46f4596dc1d4667d71a2, type: 3}
+  - {fileID: 21300000, guid: d3345a5592db67e4ab3e181b21cc6fe4, type: 3}
+  - {fileID: 21300000, guid: d3345a5592db67e4ab3e181b21cc6fe4, type: 3}
+  - {fileID: 21300000, guid: d3345a5592db67e4ab3e181b21cc6fe4, type: 3}

@@ -2,4 +2,5 @@
 public enum EventID
 {
     On_Player_Fill_All_Blanks,
+    On_Player_Win,
 }
