@@ -11,29 +11,32 @@ public class StageManager : Singleton<StageManager>
     public Alphabet alphabetPrefab;
     public HorizontalLayoutGroup blankGroup;
     public GridLayoutGroup alphabetGroup;
+    public Image logoImage;
 
     public List<Blank> blankList;
     public List<Alphabet> alphabetList;
     public string rightAnswer;
 
-    public void Init()
+    public void InitStage(int id)
     {
-        
-    }
-
-    private void OnEnable()
-    {
-        data = GameManager.Instance.data.gameData[PlayerPrefs.GetInt(DataKey.Cur_Stage)];
+        data = GameManager.Instance.data.gameData[id];
+        logoImage.sprite = data.logo;
         rightAnswer = data.answer.ToUpper();
         CreatBlanks();
         CreateAlphabets();
         StartCoroutine(DeactiveLayoutGroup());
+    }
+
+    private void OnEnable()
+    {
         EventDispatcher.Instance.RegisterListener(EventID.On_Player_Fill_All_Blanks, CheckIfPlayerFillAllBlanks);
+        this.RegisterListener(EventID.On_Load_Stage, (param) => InitStage((int) param));
     }
 
     private void OnDisable()
     {
         EventDispatcher.Instance.RemoveListener(EventID.On_Player_Fill_All_Blanks, CheckIfPlayerFillAllBlanks);
+        this.RemoveListener(EventID.On_Load_Stage, (param) => InitStage((int) param));
     }
 
     private void CreatBlanks()
@@ -69,7 +72,7 @@ public class StageManager : Singleton<StageManager>
         blankGroup.enabled = false;
         alphabetGroup.enabled = false;
     }
-    
+
     public void GetFirstNotFilledBlank(Alphabet alphabet)
     {
         for (int i = 0; i < blankList.Count; i++)
@@ -108,16 +111,16 @@ public class StageManager : Singleton<StageManager>
         {
             return;
         }
-        
+
         string playerAnswer = "";
-        
+
         for (int i = 0; i < blankList.Count; i++)
         {
             playerAnswer += data.alphabets[blankList[i].alphabetIndex].name;
         }
 
         var check = String.CompareOrdinal(playerAnswer.ToUpper(), rightAnswer);
-        
+
         if (check == 0)
         {
             EventDispatcher.Instance.PostEvent(EventID.On_Player_Win);
@@ -132,5 +135,24 @@ public class StageManager : Singleton<StageManager>
                 }
             }
         }
+    }
+
+    public void ResetPanel()
+    {
+        for (int i = 0; i < blankList.Count; i++)
+        {
+            PoolingManager.Despawn(blankList[i].gameObject);
+        }
+        
+        for (int i = 0; i < alphabetList.Count; i++)
+        {
+            PoolingManager.Despawn(alphabetList[i].gameObject);
+        }
+        
+        blankList.Clear();
+        alphabetList.Clear();
+        
+        blankGroup.enabled = true;
+        alphabetGroup.enabled = true;
     }
 }

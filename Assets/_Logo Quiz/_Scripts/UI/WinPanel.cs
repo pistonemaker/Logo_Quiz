@@ -12,7 +12,15 @@ public class WinPanel : MonoBehaviour
     {
         closeButton.onClick.AddListener(ClosePanel);
         restartButton.onClick.AddListener(RestartStage);
-        nextStageButton.onClick.AddListener(LoadNextStage);
+        
+        if (PlayerPrefs.GetInt(DataKey.Cur_Stage) >= GameManager.Instance.data.gameData.Count - 1)
+        {
+            nextStageButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            nextStageButton.onClick.AddListener(LoadNextStage);
+        }
     }
     
     private void OnDisable()
