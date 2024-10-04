@@ -2,18 +2,19 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class WinPanel : MonoBehaviour
+public class WinPanel : Singleton<WinPanel>
 {
     public Button closeButton;
     public Button restartButton;
     public Button nextStageButton;
+    public int id;
 
     private void OnEnable()
     {
         closeButton.onClick.AddListener(ClosePanel);
         restartButton.onClick.AddListener(RestartStage);
         
-        if (PlayerPrefs.GetInt(DataKey.Cur_Stage) >= GameManager.Instance.data.gameData.Count - 1)
+        if (id >= GameManager.Instance.data.gameData.Count - 1)
         {
             nextStageButton.gameObject.SetActive(false);
         }
@@ -42,8 +43,16 @@ public class WinPanel : MonoBehaviour
 
     private void LoadNextStage()
     {
-        var curStage = PlayerPrefs.GetInt(DataKey.Cur_Stage);
-        PlayerPrefs.SetInt(DataKey.Cur_Stage, curStage + 1);
-        SceneManager.LoadSceneAsync("Game");
+        if (id > PlayerPrefs.GetInt(DataKey.Max_Stage))
+        {
+            PlayerPrefs.SetInt(DataKey.Max_Stage, id);
+        }
+        
+        PlayerPrefs.SetInt(DataKey.Cur_Stage, id + 1);
+        ClosePanel();
+        
+        StageManager.Instance.ResetPanel();
+        ChooseStageManager.Instance.gameObject.SetActive(false);
+        this.PostEvent(EventID.On_Load_Stage, id + 1);
     }
 }

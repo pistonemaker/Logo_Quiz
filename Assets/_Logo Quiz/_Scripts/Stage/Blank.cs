@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Blank : MonoBehaviour
@@ -10,5 +11,10 @@ public class Blank : MonoBehaviour
     {
         alphabetIndex = -1;
         rectTransform = GetComponent<RectTransform>();
+    }
+
+    private void OnDisable()
+    {
+        isFilled = false;
     }
 }

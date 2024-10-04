@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
@@ -22,6 +23,11 @@ public class Alphabet : MonoBehaviour
         button.onClick.AddListener(MoveAlphabet);
     }
 
+    private void OnDisable()
+    {
+        button.onClick.RemoveAllListeners();
+    }
+
     private void MoveAlphabet()
     {
         if (!isUsed)
@@ -43,11 +49,6 @@ public class Alphabet : MonoBehaviour
         target.alphabetIndex = id;
         rectTransform.anchoredPosition = target.rectTransform.anchoredPosition;
         EventDispatcher.Instance.PostEvent(EventID.On_Player_Fill_All_Blanks);
-        
-        // rectTransform.DOAnchorPos(target.rectTransform.anchoredPosition, 0.5f).OnComplete(() =>
-        // {
-        //     StartCoroutine(CheckAnswer());
-        // });
     }
 
     public void BackAnchorPosition()

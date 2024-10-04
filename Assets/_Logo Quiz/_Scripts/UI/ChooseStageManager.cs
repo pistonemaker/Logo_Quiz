@@ -6,7 +6,7 @@ public class ChooseStageManager : Singleton<ChooseStageManager>
     public StageButton stageButtonPrefab;
     public Transform stageButtonTrf;
 
-    private void OnEnable()
+    private void Start()
     {
         CreateStageButton();
     }

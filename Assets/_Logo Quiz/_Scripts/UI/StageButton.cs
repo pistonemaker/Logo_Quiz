@@ -14,6 +14,7 @@ public class StageButton : MonoBehaviour
 
     private void LoadStage()
     {
+        PlayerPrefs.SetInt(DataKey.Cur_Stage, id);
         ChooseStageManager.Instance.gameObject.SetActive(false);
         this.PostEvent(EventID.On_Load_Stage, id);
     }

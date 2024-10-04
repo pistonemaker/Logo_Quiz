@@ -16,9 +16,12 @@ public class StageManager : Singleton<StageManager>
     public List<Blank> blankList;
     public List<Alphabet> alphabetList;
     public string rightAnswer;
+    public int ID;
 
     public void InitStage(int id)
     {
+        ID = id;
+        WinPanel.Instance.id = ID;
         data = GameManager.Instance.data.gameData[id];
         logoImage.sprite = data.logo;
         rightAnswer = data.answer.ToUpper();
@@ -48,6 +51,7 @@ public class StageManager : Singleton<StageManager>
             blank.transform.localScale = Vector3.one;
             blank.name = "Blank " + (i + 1);
             blankList.Add(blank);
+            blank.transform.SetSiblingIndex(i);
         }
     }
 
@@ -62,6 +66,7 @@ public class StageManager : Singleton<StageManager>
             alphabet.name = "Alphabet " + (i + 1);
             alphabet.image.sprite = data.alphabets[i];
             alphabetList.Add(alphabet);
+            alphabet.transform.SetSiblingIndex(i);
         }
     }
 
@@ -123,12 +128,13 @@ public class StageManager : Singleton<StageManager>
 
         if (check == 0)
         {
-            EventDispatcher.Instance.PostEvent(EventID.On_Player_Win);
+            EventDispatcher.Instance.PostEvent(EventID.On_Player_Win, ID);
         }
         else
         {
             for (int i = 0; i < blankList.Count; i++)
             {
+                Debug.Log(i);
                 if (playerAnswer[i] != rightAnswer[i])
                 {
                     alphabetList[blankList[i].alphabetIndex].BackAnchorPosition();
